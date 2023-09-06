@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import BookResponse from "../Types/BookResponse";
 import "./Book.style.css";
+import { Link } from "react-router-dom";
 
 const Book = () => {
     const [bookList, setBookList] = useState([] as BookResponse[]);
@@ -17,8 +18,8 @@ const Book = () => {
 
     return (
         <>
+        <p className="title">Books</p>
         <div className="table-container">
-            <p className="title">Books</p>
             <table>
                 <thead>
                     <tr>
@@ -27,6 +28,7 @@ const Book = () => {
                         <th>Year</th>
                         <th>Genre</th>
                         <th>Author</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,9 +39,18 @@ const Book = () => {
                         <td>{book.year}</td>
                         <td>{book.genre?.genreName}</td>
                         <td>{book.author?.authorName}</td>
+                        <td className="action-cell">
+                            <div className="action-container">
+                                <button className="edit-btn">Edit</button>
+                                <button className="delete-btn">Delete</button>
+                            </div>
+                        </td>
                     </tr>))}
                 </tbody>
             </table>
+        </div>
+        <div className="create-container">
+            <Link to="/create" className="create-btn">Create</Link>
         </div>
         </>
     )

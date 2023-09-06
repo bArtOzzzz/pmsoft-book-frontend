@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Home from './components/Home/Home';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Book from './components/BookPage/Book';
+import Header from './components/Header/Header';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,7 +11,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Home />
+      <Header />
     </BrowserRouter>
   </React.StrictMode>
 );

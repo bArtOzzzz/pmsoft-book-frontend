@@ -13,6 +13,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0px 80px 0px 80px;
 }
 
 table th {
@@ -23,8 +24,70 @@ table td {
     font-size: 16px;
 }
 
+.action-cell {
+    width: 10em;
+}
+
+.action-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.action-container button {
+    width: 60px;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+}
+
+.edit-btn {
+    background-color: #c36a00;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #ea7f00;
+}
+
+.delete-btn {
+    background-color: #ca0000;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #ee0000;
+}
+
+.create-container {
+    float: right;
+    padding-right: 5em;
+    padding-top: 30px;
+}
+
+.create-btn {
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #2cbc00;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
+
+.create-btn:hover {
+    background-color: #35e100;
+}
+
 @media (max-width: 1275px) {
     table {
         width: 90%;
+    }
+
+    .create-container {
+        padding-right: 8em;
     }
 }

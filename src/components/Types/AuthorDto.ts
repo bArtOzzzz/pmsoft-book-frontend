@@ -1,4 +1,5 @@
 type AuthorDto = {
+    id: string;
     authorName: string;
 };
 

@@ -1,4 +1,5 @@
 type GenreDto = {
+    id: string;
     genreName: string;
 };
 

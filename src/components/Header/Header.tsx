@@ -1,8 +1,9 @@
 import Book from "../BookPage/Book";
-import "./Home.style.css";
+import Create from "../CreateBook/Create";
+import "./Header.style.css";
 import { Routes, Route, Link } from 'react-router-dom';
 
-const Home = () => {
+const Header = () => {
     return (
         <>
         <div className="header">
@@ -11,7 +12,7 @@ const Home = () => {
             <div className="header-link-container">
                 <ul className="link-container">
                     <li>
-                        <Link to="/books" className="link-book">Books</Link>
+                        <Link to="/" className="link-book">Books</Link>
                     </li>
                 </ul>
             </div>
@@ -33,10 +34,11 @@ const Home = () => {
             </div>
         </div>
         <Routes>
-            <Route path="/books" element={<Book />} />
+            <Route path="*" element={<Book />} />
+            <Route path="/create" element={<Create />} />
         </Routes>
         </>
     )
 };
 
-export default Home;
+export default Header;
