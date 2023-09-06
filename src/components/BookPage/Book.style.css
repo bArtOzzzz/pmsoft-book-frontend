@@ -1,0 +1,30 @@
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    cursor: default;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+.table-container {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+table th {
+    font-size: 20px;
+}
+
+table td {
+    font-size: 16px;
+}
+
+@media (max-width: 1275px) {
+    table {
+        width: 90%;
+    }
+}
