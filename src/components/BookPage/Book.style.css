@@ -46,6 +46,11 @@ table td {
 .edit-btn {
     background-color: #c36a00;
     color: white;
+    font-size: 16px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
 }
 
 .edit-btn:hover {

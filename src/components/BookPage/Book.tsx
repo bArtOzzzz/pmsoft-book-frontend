@@ -41,8 +41,8 @@ const Book = () => {
                         <td>{book.author?.authorName}</td>
                         <td className="action-cell">
                             <div className="action-container">
-                                <button className="edit-btn">Edit</button>
-                                <button className="delete-btn">Delete</button>
+                                <Link to={`/update/${book.id}`} className="edit-btn">Edit</Link>
+                                <button className="delete-btn" onClick={() => deleteBook(book.id)}>Delete</button>
                             </div>
                         </td>
                     </tr>))}
@@ -55,5 +55,11 @@ const Book = () => {
         </>
     )
 };
+
+async function deleteBook(id: string) {
+    await axios.delete(`https://localhost:7196/api/Book/DeleteBook/${id}`);
+    window.location.reload();
+    console.log("Book was deleted successfully!");
+}
 
 export default Book;

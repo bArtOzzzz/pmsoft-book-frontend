@@ -1,9 +1,13 @@
 import Book from "../BookPage/Book";
 import Create from "../CreateBook/Create";
+import Update from "../UpdateBook/Update";
 import "./Header.style.css";
 import { Routes, Route, Link } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 const Header = () => {
+    const { id } = useParams();
+
     return (
         <>
         <div className="header">
@@ -36,6 +40,7 @@ const Header = () => {
         <Routes>
             <Route path="*" element={<Book />} />
             <Route path="/create" element={<Create />} />
+            <Route path="/update/:id" element={<Update />} />
         </Routes>
         </>
     )
