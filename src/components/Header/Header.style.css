@@ -86,3 +86,7 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+.disabled-link {
+    cursor: default;
+}

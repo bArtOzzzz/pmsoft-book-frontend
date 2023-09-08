@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import AuthorDto from "../Types/AuthorDto";
 import GenreDto from "../Types/GenreDto";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const Update = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const [genre, setGenre] = useState([] as GenreDto[]);
     const [author, setAuthor] = useState([] as AuthorDto[]);
@@ -26,7 +27,10 @@ const Update = () => {
 
         axios.put(`https://localhost:7196/api/Book/UpdateBook/${id}`, data)
         .then((response) => {
-            console.log(response);
+            if (response) {
+                navigate("/");
+                window.location.reload();
+            }
         }).catch(error => {
             console.log(error);
         });

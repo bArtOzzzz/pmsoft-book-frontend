@@ -3,8 +3,10 @@ import "./Create.style.css";
 import axios from "axios";
 import GenreDto from "../Types/GenreDto";
 import AuthorDto from "../Types/AuthorDto";
+import { useNavigate } from "react-router";
 
 const Create = () => {
+    const navigate = useNavigate();
     const [genre, setGenre] = useState([] as GenreDto[]);
     const [author, setAuthor] = useState([] as AuthorDto[]);
 
@@ -24,13 +26,18 @@ const Create = () => {
 
         axios.post('https://localhost:7196/api/Book/CreateBook', data)
         .then(response => {
-            console.log(response);
+            if (response) {
+                navigate("/");
+                window.location.reload();
+            }
         }).catch(error => {
             console.log(error);
         });
     }
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     axios.get<GenreDto[]>("https://localhost:7196/api/Genre/GetListOfGenres")
     .then((response) => {
         setGenre(response.data);
@@ -41,6 +48,8 @@ const Create = () => {
   }, []);
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     axios.get<AuthorDto[]>("https://localhost:7196/api/Author/GetListOfAuthors")
     .then((response) => {
         setAuthor(response.data);
