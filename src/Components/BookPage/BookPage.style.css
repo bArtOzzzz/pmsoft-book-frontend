@@ -1,0 +1,63 @@
+.title-book {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    cursor: default;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+.container {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-container {
+    width: 200px;
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.edit-btn {
+    background-color: #c36a00;
+    color: white;
+    font-size: 16px;
+    padding: 10px 30px 10px 30px;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.edit-btn:hover {
+    background-color: #ea7f00;
+}
+
+.delete-btn {
+    background-color: #ca0000;
+    color: white;
+    border: none;
+    text-decoration: none;
+    padding: 10px 20px 10px 20px;
+}
+
+.delete-btn:hover {
+    background-color: #ee0000;
+}
+
+.create-btn {
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #2cbc00;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    float: right;
+    margin-bottom: 1.5em;
+}
