@@ -1,0 +1,29 @@
+.title-login {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    cursor: default;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+.container div {
+    padding-bottom: 30px;
+}
+
+.container input {
+    font-size: 20px;
+}
+
+.submit-btn {
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #2cbc00;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    float: right;
+    margin-bottom: 1.5em;
+}

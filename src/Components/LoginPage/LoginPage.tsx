@@ -1,15 +1,19 @@
+import "./LoginPage.style.css";
+
 const LoginPage = () => {
     return (
         <>
         <form action="">
-            <div className="add-book-container">
-            <p className="title">Login</p>
+            <p className="title-login">Login</p>
             <div className="container">
-                <input type="text" placeholder="Email" name="email" />
-                <input type="password" placeholder="Password" name="password"/>
+                <div className="email-container">
+                    <input type="text" placeholder="Email" name="email" />
+                </div>
+                <div className="password-container">
+                    <input type="password" placeholder="Password" name="password"/>
+                </div>
                 <button className="submit-btn" type="submit">Submit</button>
             </div>
-            </div>  
         </form>
         </>
     )
