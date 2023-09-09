@@ -7,6 +7,10 @@
     margin-bottom: 1.5em;
 }
 
+table th, td {
+    text-align: center;
+}
+
 .container {
     margin: 0;
     display: flex;
@@ -17,10 +21,8 @@
 
 .action-container {
     width: 200px;
-    height: 80px;
     display: flex;
     justify-content: space-around;
-    align-items: center;
 }
 
 .edit-btn {

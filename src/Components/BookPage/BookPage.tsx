@@ -27,11 +27,9 @@ const BookPage = () => {
                             <td>Test</td>
                             <td>Test</td>
                             <td>Test</td>
-                        <td>
-                            <div className="action-container">
-                                <a href="#" className="edit-btn">Edit</a>
-                                <a href="#" className="delete-btn">Delete</a>
-                            </div>
+                        <td className="action-container">
+                            <a href="#" className="edit-btn">Edit</a>
+                            <a href="#" className="delete-btn">Delete</a>
                         </td>
                         </tr>
                         {/* {bookList.map((book) => (
