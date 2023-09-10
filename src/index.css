@@ -234,3 +234,11 @@ td {
 .disabled-link {
   cursor: default;
 }
+
+.email-container {
+  height: 40px;
+}
+
+.error-message {
+  color: red;
+}
