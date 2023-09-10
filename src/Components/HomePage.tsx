@@ -1,8 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import LoginPage from "../LoginPage/LoginPage";
-import "./HomePage.style.css";
-import BookPage from "../BookPage/BookPage";
-import Home from "./Home";
+import LoginPage from "./LoginPage";
+import BookPage from "./BookPage";
+import HomeContent from "./HomeContent";
 
 const HomePage = () => {
     return (
@@ -28,8 +27,9 @@ const HomePage = () => {
                 </ul>
             </div>
         </div>
+
         <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<HomeContent />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/book" element={<BookPage />} />
         </Routes>

@@ -29,3 +29,208 @@ td {
   text-align: left;
   cursor: default;
 }
+
+.title-book {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  cursor: default;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.container {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-container {
+  width: 200px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.edit-btn {
+  background-color: #c36a00;
+  color: white;
+  font-size: 16px;
+  padding: 10px 30px 10px 30px;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.edit-btn:hover {
+  background-color: #ea7f00;
+}
+
+.delete-btn {
+  background-color: #ca0000;
+  color: white;
+  border: none;
+  text-decoration: none;
+  padding: 10px 20px 10px 20px;
+}
+
+.delete-btn:hover {
+  background-color: #ee0000;
+}
+
+.create-btn {
+  padding: 10px 20px 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: #2cbc00;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  float: right;
+  margin-bottom: 1.5em;
+}
+
+.title-login {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  cursor: default;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.container div {
+  padding-bottom: 30px;
+}
+
+.container input {
+  font-size: 20px;
+}
+
+.submit-btn {
+  padding: 10px 20px 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: #2cbc00;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  float: right;
+  margin-bottom: 1.5em;
+}
+
+.title-home {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  cursor: default;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+.company-name {
+  text-decoration: underline;
+  padding-left: 10px;
+  cursor: default;
+}
+
+.header {
+  width: 100%;
+  height: 5em;
+  background-color: black;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  margin: 0;
+  color: white;
+  text-transform: uppercase;
+  font-size: 26px;
+  padding-left: 3em;
+  text-decoration: none;
+}
+
+.logo:hover {
+  color: #ff7920;
+  cursor: pointer;
+}
+
+.vertical-line {
+  margin: 0;
+  height: 2.3em;
+  border: 1px solid white;
+  margin-left: 3em;
+  margin-right: 3em;
+}
+
+.header-link-container {
+  margin: 0;
+  color: white;
+  display: block;
+  flex-grow: 1;
+}
+
+.link-container {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+}
+
+.link-container li {
+  margin: 0;
+  padding-left: 1em;
+}
+
+.link-container li a:hover {
+  color: #ff7920;
+  cursor: pointer;
+}
+
+.link-book {
+  color: white;
+  text-decoration: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.authorization-container {
+  margin: 0;
+  padding-right: 5em;
+} 
+
+.link-signup {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  padding-right: 2em;
+  cursor: pointer;
+}
+
+.link-login {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.link-profile {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding-right: 1.5em;
+  cursor: pointer;
+}
+
+.link-logout {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.disabled-link {
+  cursor: default;
+}

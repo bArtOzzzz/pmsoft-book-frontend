@@ -1,5 +1,3 @@
-import "./BookPage.style.css";
-
 const BookPage = () => {
     return (
         <>

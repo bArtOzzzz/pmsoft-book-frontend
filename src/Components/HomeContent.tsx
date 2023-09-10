@@ -1,6 +1,4 @@
-import "./HomePage.style.css";
-
-const Home = () => {
+const HomeContent = () => {
     return (
         <div className="title-home">
             This application was completed as test task for 
@@ -11,4 +9,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default HomeContent;

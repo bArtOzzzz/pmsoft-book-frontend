@@ -1,5 +1,3 @@
-import "./LoginPage.style.css";
-
 const LoginPage = () => {
     return (
         <>
