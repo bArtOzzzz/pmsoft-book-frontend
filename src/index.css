@@ -16,6 +16,10 @@ table {
   border-collapse: collapse;
 }
 
+.table-conteiner {
+  width: 80%;
+}
+
 th {
   border: 1px solid #999;
   padding: 0.5rem;
@@ -49,8 +53,10 @@ td {
 
 .action-container {
   width: 200px;
-  display: flex;
-  justify-content: space-around;
+}
+
+.delete-btn {
+  float: right;
 }
 
 .edit-btn {
@@ -60,7 +66,7 @@ td {
   padding: 10px 30px 10px 30px;
   text-decoration: none;
   cursor: pointer;
-  text-align: center;
+  float: left;
 }
 
 .edit-btn:hover {
@@ -73,10 +79,15 @@ td {
   border: none;
   text-decoration: none;
   padding: 10px 20px 10px 20px;
+  font-size: 16px;
 }
 
 .delete-btn:hover {
   background-color: #ee0000;
+}
+
+.create-container {
+  margin-bottom: 2em;
 }
 
 .create-btn {
@@ -89,7 +100,6 @@ td {
   text-decoration: none;
   text-align: center;
   float: right;
-  margin-bottom: 1.5em;
 }
 
 .title-login {
@@ -241,4 +251,24 @@ td {
 
 .error-message {
   color: red;
+}
+
+@media (max-width: 915px) {
+  .table-conteiner {
+    font-size: 12px;
+  }
+
+  .action-container {
+    width: 120px;
+  }
+
+  .delete-btn {
+    font-size: 12px;
+    padding: 5px 10px 5px 10px;
+  }
+
+  .edit-btn {
+    font-size: 12px;
+    padding: 5px 15px 5px 15px;
+  }
 }
