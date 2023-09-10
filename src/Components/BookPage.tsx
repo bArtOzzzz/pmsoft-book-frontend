@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import BookResponse from "../Models/BookResponse";
+import CreateBookPage from "./CreateBookPage";
 
 const BookPage = () => {
     const [bookList, setBookList] = useState([] as BookResponse[]);
@@ -17,11 +18,11 @@ const BookPage = () => {
 
     return (
         <>
-        <p className="title-book">Books</p>
+        <p className="title">Books</p>
         <div className="container">
             <div className="table-conteiner">
                 <div className="create-container">
-                    <a href="/create" className="create-btn">Create</a>
+                    <Link to="create" className="create-btn">Create</Link>
                 </div>
                 <table>
                     <thead>
@@ -55,7 +56,10 @@ const BookPage = () => {
                 </table>
             </div>
         </div>
-        </>
+            <Routes>
+                <Route path="create" element={<CreateBookPage />} />
+            </Routes>
+        </> 
     )
 }
 

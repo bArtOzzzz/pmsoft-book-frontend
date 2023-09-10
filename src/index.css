@@ -34,7 +34,7 @@ td {
   cursor: default;
 }
 
-.title-book {
+.title {
   font-size: 32px;
   font-weight: bold;
   text-align: center;
@@ -102,15 +102,6 @@ td {
   float: right;
 }
 
-.title-login {
-  font-size: 32px;
-  font-weight: bold;
-  text-align: center;
-  cursor: default;
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
-}
-
 .container div {
   padding-bottom: 30px;
 }
@@ -129,16 +120,7 @@ td {
   text-decoration: none;
   text-align: center;
   float: right;
-  margin-bottom: 1.5em;
-}
-
-.title-home {
-  font-size: 32px;
-  font-weight: bold;
-  text-align: center;
-  cursor: default;
   margin-top: 1.5em;
-  margin-bottom: 1.5em;
 }
 
 .company-name {
@@ -245,8 +227,26 @@ td {
   cursor: default;
 }
 
-.email-container {
-  height: 40px;
+.input-field {
+  display: flex;
+  flex-direction: column;
+  height: 60px;
+}
+
+.select-field {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.container select {
+  width: 19em;
+  height: 2em;
+  cursor: pointer;
+}
+
+.item-name {
+  padding-bottom: 5px;
 }
 
 .error-message {

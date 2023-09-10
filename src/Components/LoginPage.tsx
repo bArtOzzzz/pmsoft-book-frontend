@@ -40,16 +40,18 @@ const LoginPage: React.FC = () => {
                 onSubmit={onSubmit}>
             {({isSubmitting}) => (
                 <Form>
-                    <p className="title-login">Login</p>
+                    <p className="title">Login</p>
                     <div className="container">
-                        <div className="email-container">
-                            <Field type="email" name="email" placeholder="Email" />
+                        <div className="input-field">
+                            <label className="item-name">Email:</label>
+                            <Field type="email" name="email" placeholder="example@gmail.com" />
                             <div className='error-message'>
                                 <ErrorMessage name="email" />
                             </div>
                         </div>
-                        <div className="password-container">
-                            <Field type="password" name="password" placeholder="Password" />
+                        <div className="input-field">
+                            <label className="item-name">Password:</label>
+                            <Field type="password" name="password" />
                             <div className='error-message'>
                                 <ErrorMessage name="password" />
                             </div>

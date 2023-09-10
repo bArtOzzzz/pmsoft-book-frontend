@@ -3,7 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import HomePage from './Components/HomePage';
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomeContent from './Components/HomeContent';
+import BookPage from './Components/BookPage';
+import LoginPage from './Components/LoginPage';
+import CreateBookPage from './Components/CreateBookPage';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -11,7 +15,14 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <HomePage />
+      <Routes>
+        <Route path='*' element={<HomePage />}>
+          <Route path='home' element={<HomeContent />} />
+          <Route path='book/*' element={<BookPage />} />
+          <Route path='book/create' element={<CreateBookPage />} />  
+          <Route path='login' element={<LoginPage />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
