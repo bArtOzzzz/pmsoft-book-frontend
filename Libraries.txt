@@ -2,3 +2,4 @@
 2. npm i axios
 3. npm i formik
 4. npm i yup
+5. npm i jwt-decode
