@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Field, Formik, Form, ErrorMessage } from "formik";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import * as Yup from 'yup';
 import GenreModel from "../Models/GenreModel";
 import AuthorModel from "../Models/AuthorModel";
@@ -10,8 +10,9 @@ import jwt_decode from 'jwt-decode';
 import TokensModel from "../Models/TokensModel";
 import RefreshTokenModel from "../Models/RefreshTokenModel";
 
-const CreateBookPage = () => {
+const UpdateBookPage = () => {
     const navigate = useNavigate();
+    const { id } = useParams<{ id: string }>();
     const [genre, setGenre] = useState([] as GenreModel[]);
     const [author, setAuthor] = useState([] as AuthorModel[]);
 
@@ -120,8 +121,8 @@ const CreateBookPage = () => {
                         return Promise.reject(error);
                     }
                 );
-
-                const response = await axios.post('https://localhost:7196/api/Book/CreateBook', values);
+                
+                const response = await axios.put(`https://localhost:7196/api/Book/UpdateBook/${id}`, values);
 
                 if (response) {
                     navigate("/book");
@@ -139,7 +140,7 @@ const CreateBookPage = () => {
                 onSubmit={onSubmit}>
             {({isSubmitting}) => (
                 <Form>
-                    <p className="title">Add book</p>
+                    <p className="title">Update book</p>
                     <div className="container">
                         <div className="select-field genre-select-field">
                             <label className="item-name">Genre:</label>
@@ -184,4 +185,4 @@ const CreateBookPage = () => {
     )
 }
 
-export default CreateBookPage;
+export default UpdateBookPage;

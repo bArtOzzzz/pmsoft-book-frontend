@@ -1,10 +1,22 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import BookPage from "./BookPage";
 import HomeContent from "./HomeContent";
 import CreateBookPage from "./CreateBookPage";
+import UpdateBookPage from "./UpdateBookPage";
 
 const HomePage = () => {
+    const navigate = useNavigate();
+    
+    function Logout() {
+        const token = localStorage.getItem('token');
+
+        if (token != null) {
+            localStorage.removeItem('token');
+            navigate('/login');
+        }
+    }
+
     return (
         <>
         <div className="header">
@@ -23,7 +35,7 @@ const HomePage = () => {
                         <Link to="login" className="link-login">Login</Link>
                     </li> 
                     <li>
-                        <a className="link-logout">Logout</a>
+                        <a className="link-logout" onClick={() => Logout()}>Logout</a>
                     </li>
                 </ul>
             </div>
@@ -34,6 +46,7 @@ const HomePage = () => {
             <Route path="login" element={<LoginPage />} />
             <Route path="book/*" element={<BookPage />} />
             <Route path="book/create" element={<CreateBookPage />} />
+            <Route path="book/update/:id" element={<UpdateBookPage />} />
         </Routes>
         </>
     )
