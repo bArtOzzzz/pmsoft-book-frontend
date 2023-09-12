@@ -1,22 +1,25 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BookResponse from "../Models/BookResponse";
-import CreateBookPage from "./CreateBookPage";
 import jwt_decode from 'jwt-decode';
 import TokensModel from "../Models/TokensModel";
 import RefreshTokenModel from "../Models/RefreshTokenModel";
-import UpdateBookPage from "./UpdateBookPage";
 
 const BookPage = () => {
     const navigate = useNavigate();
     const [bookList, setBookList] = useState([] as BookResponse[]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const refreshValues: RefreshTokenModel = {
         id: '',
         accessToken: '',
         refreshToken: ''
     };
+
+    useEffect(() => {
+        RefreshToken();
+    }, []);
 
     useEffect(() => {
         axios.get<BookResponse[]>("https://localhost:7196/api/Book/GetListOfBooks").then((response) => {
@@ -26,6 +29,54 @@ const BookPage = () => {
             console.log(error);
         });
     }, []);
+
+    function RefreshToken() {
+        const token = localStorage.getItem("token");
+
+        if (token !== null) {
+            const decodedToken = jwt_decode(token) as TokensModel;
+            const currentTime = Date.now() / 1000;
+
+            if (decodedToken.exp < currentTime) {
+                console.log("Token expired");
+                setIsLoggedIn(false);
+                AxiosRequest();
+                AxiosResponse();
+            } 
+            else {
+                console.log("Token not expired");
+                setIsLoggedIn(true);
+            }
+        }
+        else {
+            navigate("/login");
+        }
+    }
+
+    async function AxiosResponse() {
+        const accessToken = localStorage.getItem('token');
+        const decodedToken = jwt_decode(accessToken!) as TokensModel;
+        const userId = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+    
+        const getRefreshToken = await axios.get('https://localhost:7196/api/Authentication/GetRefreshTokenByUser/' + userId);
+    
+        if (getRefreshToken) {
+            const RefreshToken = (values: RefreshTokenModel) => {
+                values.id = userId;
+                values.accessToken = accessToken!;
+                values.refreshToken = getRefreshToken.data;
+            }
+    
+            RefreshToken(refreshValues);
+        }
+    
+        const accessTokenResponse = await axios.post('https://localhost:7196/api/Authentication/RefreshToken', refreshValues);
+        const newAccessToken = accessTokenResponse.data;
+        localStorage.setItem('token', newAccessToken);
+
+        setIsLoggedIn(true);
+        RefreshToken();
+    }
 
     function AxiosRequest() {
         axios.interceptors.request.use((config) => {
@@ -92,7 +143,14 @@ const BookPage = () => {
         <div className="container">
             <div className="table-conteiner">
                 <div className="create-container">
-                    <Link to="create" className="create-btn">Create</Link>
+                    {
+                        isLoggedIn ? (
+                            <Link to="create" className="create-btn">Create</Link>
+                        ) : (
+                            <a href="#" className="create-btn disabled-btn">[Disabled]</a>
+                        )
+                    }
+                    
                 </div>
                 <table>
                     <thead>
@@ -102,7 +160,13 @@ const BookPage = () => {
                             <th>Year</th>
                             <th>Genre</th>
                             <th>Author</th>
-                            <th>Action</th>
+                            {
+                               isLoggedIn ? (
+                                <th>Action</th>
+                               ) : (
+                                <th>[Disabled]</th>
+                               )
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -113,10 +177,20 @@ const BookPage = () => {
                             <td>{book.year}</td>
                             <td>{book.genre?.genreName}</td>
                             <td>{book.author?.authorName}</td>
-                            <td className="action-container">
+                            {
+                                isLoggedIn ? (
+                                    <td className="action-container">
+                                        <Link to={`update/${book.id}`} className="edit-btn">Edit</Link>
+                                        <a href="#" className="delete-btn" onClick={() => deleteBook(book.id)}>Delete</a>
+                                    </td>
+                                ) : (
+                                    <td>[Disabled]</td>
+                                )
+                            }
+                            {/* <td className="action-container">
                                 <Link to={`update/${book.id}`} className="edit-btn">Edit</Link>
                                 <a href="#" className="delete-btn" onClick={() => deleteBook(book.id)}>Delete</a>
-                            </td>
+                            </td> */}
                         </tr>))}
                     </tbody>
                 </table>

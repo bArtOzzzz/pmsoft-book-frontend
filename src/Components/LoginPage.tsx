@@ -28,6 +28,7 @@ const LoginPage: React.FC = () => {
           const response = await axios.post('https://localhost:7196/api/Authentication/Login', values);
           localStorage.setItem('token', response.data.accessToken);
           navigate('/home');
+          window.location.reload();
         } catch (error: any) {
           setLoginError(error.response.data.message);
         }

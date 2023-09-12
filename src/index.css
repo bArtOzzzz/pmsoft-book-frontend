@@ -102,6 +102,10 @@ td {
   float: right;
 }
 
+.disabled-btn {
+  cursor: default;
+}
+
 .container div {
   padding-bottom: 30px;
 }
@@ -170,11 +174,6 @@ td {
   display: flex;
   align-items: center;
   list-style-type: none;
-}
-
-.link-container li {
-  margin: 0;
-  padding-left: 1em;
 }
 
 .link-container li a:hover {
