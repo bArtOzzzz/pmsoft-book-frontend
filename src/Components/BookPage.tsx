@@ -5,11 +5,16 @@ import BookResponse from "../Models/BookResponse";
 import jwt_decode from 'jwt-decode';
 import TokensModel from "../Models/TokensModel";
 import RefreshTokenModel from "../Models/RefreshTokenModel";
+import { GetListOfBooks } from "../Api/api.service";
+import { DeleteBook } from "../Api/api.service";
+import { useAxiosRequest, useAxiosResponse } from "../Services/Auth.interceptor";
 
 const BookPage = () => {
     const navigate = useNavigate();
     const [bookList, setBookList] = useState([] as BookResponse[]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const axiosRequest = useAxiosRequest();
+    const axiosResponse = useAxiosResponse();
 
     const refreshValues: RefreshTokenModel = {
         id: '',
@@ -22,15 +27,14 @@ const BookPage = () => {
     }, []);
 
     useEffect(() => {
-        axios.get<BookResponse[]>("https://localhost:7196/api/Book/GetListOfBooks").then((response) => {
-            setBookList(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        GetListOfBooks().then((data) => setBookList(data));
     }, []);
 
-    function RefreshToken() {
+    const DeleteBookAsync = async (bookId: string) => {
+        await DeleteBook(bookId);
+    }
+
+    async function RefreshToken() {
         const token = localStorage.getItem("token");
 
         if (token !== null) {
@@ -40,8 +44,25 @@ const BookPage = () => {
             if (decodedToken.exp < currentTime) {
                 console.log("Token expired");
                 setIsLoggedIn(false);
-                AxiosRequest();
-                AxiosResponse();
+                const accessToken = localStorage.getItem('token');
+                const decodedToken = jwt_decode(accessToken!) as TokensModel;
+                const userId = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+
+                const getRefreshToken = await axios.get('https://localhost:7196/api/Authentication/GetRefreshTokenByUser/' + userId);
+
+                if (getRefreshToken) {
+                    const RefreshToken = (values: RefreshTokenModel) => {
+                        values.id = userId;
+                        values.accessToken = accessToken!;
+                        values.refreshToken = getRefreshToken.data;
+                    }
+
+                    RefreshToken(refreshValues);
+                }
+
+                const accessTokenResponse = await axios.post('https://localhost:7196/api/Authentication/RefreshToken', refreshValues);
+                const newAccessToken = accessTokenResponse.data;
+                localStorage.setItem('token', newAccessToken);
             } 
             else {
                 console.log("Token not expired");
@@ -53,88 +74,15 @@ const BookPage = () => {
         }
     }
 
-    async function AxiosResponse() {
-        const accessToken = localStorage.getItem('token');
-        const decodedToken = jwt_decode(accessToken!) as TokensModel;
-        const userId = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-    
-        const getRefreshToken = await axios.get('https://localhost:7196/api/Authentication/GetRefreshTokenByUser/' + userId);
-    
-        if (getRefreshToken) {
-            const RefreshToken = (values: RefreshTokenModel) => {
-                values.id = userId;
-                values.accessToken = accessToken!;
-                values.refreshToken = getRefreshToken.data;
-            }
-    
-            RefreshToken(refreshValues);
-        }
-    
-        const accessTokenResponse = await axios.post('https://localhost:7196/api/Authentication/RefreshToken', refreshValues);
-        const newAccessToken = accessTokenResponse.data;
-        localStorage.setItem('token', newAccessToken);
-
-        setIsLoggedIn(true);
-        RefreshToken();
-    }
-
-    function AxiosRequest() {
-        axios.interceptors.request.use((config) => {
-            const token = localStorage.getItem('token');
-          
-            if (token) {
-              config.headers.Authorization = `Bearer ${token}`;
-              console.log("successfull request!");
-            }
-            else {
-                alert("Oops seems like you not logged in or not registered!");
-                setTimeout(() => {
-                    navigate("/login");
-                    window.location.reload();
-                }, 1000)
-            }
-          
-            return config;
-          });
-    }
-
     async function deleteBook(id: string) {
-        AxiosRequest();
+        axiosRequest();
+        axiosResponse();
 
-        axios.interceptors.response.use(
-            (response) => response,
-            async (error) => {
-                if (error.response.status === 401) {
-                    const accessToken = localStorage.getItem('token');
-                    const decodedToken = jwt_decode(accessToken!) as TokensModel;
-                    const userId = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-
-                    const getRefreshToken = await axios.get('https://localhost:7196/api/Authentication/GetRefreshTokenByUser/' + userId);
-
-                    if (getRefreshToken) {
-                        const RefreshToken = (values: RefreshTokenModel) => {
-                            values.id = userId;
-                            values.accessToken = accessToken!;
-                            values.refreshToken = getRefreshToken.data;
-                        }
-
-                        RefreshToken(refreshValues);
-                    }
-
-                    const accessTokenResponse = await axios.post('https://localhost:7196/api/Authentication/RefreshToken', refreshValues);
-                    const newAccessToken = accessTokenResponse.data;
-                    localStorage.setItem('token', newAccessToken);
-
-                    deleteBook(id);
-                }
-            
-                return Promise.reject(error);
-            }
-        );
-
-        await axios.delete(`https://localhost:7196/api/Book/DeleteBook/${id}`);
-        window.location.reload();
-        console.log("Book was deleted successfully!");
+        if (id !== null && id !== undefined) {    
+            DeleteBookAsync(id);
+            navigate("/book");
+            window.location.reload();
+        }
     }
 
     return (
@@ -150,7 +98,6 @@ const BookPage = () => {
                             <a href="#" className="create-btn disabled-btn">[Disabled]</a>
                         )
                     }
-                    
                 </div>
                 <table>
                     <thead>
@@ -187,10 +134,6 @@ const BookPage = () => {
                                     <td>[Disabled]</td>
                                 )
                             }
-                            {/* <td className="action-container">
-                                <Link to={`update/${book.id}`} className="edit-btn">Edit</Link>
-                                <a href="#" className="delete-btn" onClick={() => deleteBook(book.id)}>Delete</a>
-                            </td> */}
                         </tr>))}
                     </tbody>
                 </table>

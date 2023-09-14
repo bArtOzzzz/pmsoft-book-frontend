@@ -1,136 +1,70 @@
-import axios from "axios";
 import { Field, Formik, Form, ErrorMessage } from "formik";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import * as Yup from 'yup';
 import GenreModel from "../Models/GenreModel";
 import AuthorModel from "../Models/AuthorModel";
-import CreateBookModel from "../Models/CreateBookModel";
-import jwt_decode from 'jwt-decode';
-import TokensModel from "../Models/TokensModel";
-import RefreshTokenModel from "../Models/RefreshTokenModel";
+import UpdateBookModel from "../Models/UpdateBookModel";
+import { useAxiosRequest, useAxiosResponse } from "../Services/Auth.interceptor";
+import { GetListOfGenres, GetListOfAuthors, UpdateBook } from "../Api/api.service";
 
 const UpdateBookPage = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     const [genre, setGenre] = useState([] as GenreModel[]);
     const [author, setAuthor] = useState([] as AuthorModel[]);
+    const [genreId, setGenreId] = useState('');
+    const [authorId, setAuthorId] = useState('');
+    const axiosRequest = useAxiosRequest();
+    const axiosResponse = useAxiosResponse();
 
     useEffect(() => {
-        axios.get<GenreModel[]>("https://localhost:7196/api/Genre/GetListOfGenres")
-        .then((response) => {
-            setGenre(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        GetListOfGenres().then((data) => setGenre(data));
     }, []);
 
     useEffect(() => {
-        axios.get<AuthorModel[]>("https://localhost:7196/api/Author/GetListOfAuthors")
-        .then((response) => {
-            setAuthor(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        GetListOfAuthors().then((data) => setAuthor(data));
     }, []);
-
-    function AxiosRequest() {
-        axios.interceptors.request.use((config) => {
-            const token = localStorage.getItem('token');
-          
-            if (token) {
-              config.headers.Authorization = `Bearer ${token}`;
-              console.log("successfull request!");
-            }
-            else {
-                alert("Oops seems like you not logged in or not registered!");
-                setTimeout(() => {
-                    navigate("/login");
-                    window.location.reload();
-                }, 1000)
-            }
-          
-            return config;
-          });
-    }
     
-    const initialValues: CreateBookModel = {
+    const initialValues: UpdateBookModel = {
         genreId: '',
         authorId: '',
         name: '',
         year: 0,
     };
 
-    const refreshValues: RefreshTokenModel = {
-        id: '',
-        accessToken: '',
-        refreshToken: ''
-    };
+    function handleChangeAuthor(event: any) {
+        setAuthorId(event.target.value);
+    }
+
+    function handleChangeGenre(event: any) {
+        setGenreId(event.target.value);
+    }
 
     const validationSchema = Yup.object({
-        genreId: Yup.string(),
-        authorId: Yup.string(),
         name: Yup.string().required('Required'),
-        year: Yup.number().positive().required('Required'),
-      });
+        year: Yup.number().positive().required('Required')
+    });
     
-      const onSubmit = async (values: CreateBookModel) => {
-        const genre = document.getElementsByName("genreName")[0];
-        const genreId = genre.querySelector('option')?.getAttribute('id');
-        const author = document.getElementsByName("authorName")[0];
-        const authorId = author.querySelector('option')?.getAttribute('id');
-
-        if (genreId != null && genreId != undefined 
-            && authorId != null && authorId != undefined) {
+      const onSubmit = async (values: UpdateBookModel) => {
+        if (genreId !== null && genreId !== undefined 
+            && authorId !== null && authorId !== undefined) {
                 values.authorId = authorId;
                 values.genreId = genreId;
             }
 
-        try {
-                AxiosRequest();
+            axiosRequest();
+            axiosResponse();
 
-                axios.interceptors.response.use(
-                    (response) => response,
-                    async (error) => {
-                        if (error.response.status === 401) {
-                            const accessToken = localStorage.getItem('token');
-                            const decodedToken = jwt_decode(accessToken!) as TokensModel;
-                            const userId = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-
-                            const getRefreshToken = await axios.get('https://localhost:7196/api/Authentication/GetRefreshTokenByUser/' + userId);
-
-                            if (getRefreshToken) {
-                                const RefreshToken = (values: RefreshTokenModel) => {
-                                    values.id = userId;
-                                    values.accessToken = accessToken!;
-                                    values.refreshToken = getRefreshToken.data;
-                                }
-
-                                RefreshToken(refreshValues);
-                            }
-
-                            const accessTokenResponse = await axios.post('https://localhost:7196/api/Authentication/RefreshToken', refreshValues);
-                            const newAccessToken = accessTokenResponse.data;
-                            localStorage.setItem('token', newAccessToken);
-
-                            onSubmit(values);
-                        }
-                    
-                        return Promise.reject(error);
-                    }
-                );
+            if (id !== null && id !== undefined) {
                 
-                const response = await axios.put(`https://localhost:7196/api/Book/UpdateBook/${id}`, values);
+                const response = await UpdateBook(id, values);
 
                 if (response) {
                     navigate("/book");
                     window.location.reload();
                 }
-        } catch (error: any) {
-            console.log(error);
-        }
+            }  
       };
 
     return (
@@ -142,23 +76,25 @@ const UpdateBookPage = () => {
                 <Form>
                     <p className="title">Update book</p>
                     <div className="container">
-                        <div className="select-field genre-select-field">
+                        <div className="select-field">
                             <label className="item-name">Genre:</label>
-                            <select name="genreName">
+                            <select name="genreId" onChange={handleChangeGenre}>
+                                <option value="">Choose genre:</option>
                                 {genre.map((item) => (
-                                <option key={item.id} value={item.genreName} id={item.id}>
-                                    {item.genreName}
-                                </option>
+                                    <option key={item.id} value={item.id}>
+                                        {item.genreName}
+                                    </option>
                                 ))}
                             </select>
                         </div>
-                        <div className="select-field author-select-field">
+                        <div className="select-field">
                             <label className="item-name">Author:</label>
-                            <select name="authorName">
+                            <select name="authorId" onChange={handleChangeAuthor}>
+                                <option value="">Choose author:</option>
                                 {author.map((item) => (
-                                <option key={item.id} value={item.authorName} id={item.id}>
-                                    {item.authorName}
-                                </option>
+                                    <option key={item.id} value={item.id}>
+                                        {item.authorName}
+                                    </option>
                                 ))}
                             </select>
                         </div>

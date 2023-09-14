@@ -3,17 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import LoginModel from '../Models/LoginModel';
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
     const [loginError, setLoginError] = useState('');
-
-    interface LoginValues {
-        email: string;
-        password: string;
-      }
     
-    const initialValues: LoginValues = {
+    const initialValues: LoginModel = {
         email: '',
         password: '',
     };
@@ -23,7 +19,7 @@ const LoginPage: React.FC = () => {
         password: Yup.string().required('Required'),
       });
     
-      const onSubmit = async (values: LoginValues) => {
+      const onSubmit = async (values: LoginModel) => {
         try {
           const response = await axios.post('https://localhost:7196/api/Authentication/Login', values);
           localStorage.setItem('token', response.data.accessToken);
